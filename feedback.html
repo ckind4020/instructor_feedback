@@ -5,44 +5,80 @@
   <title>Drive Feedback</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
+      font-family: 'Segoe UI', sans-serif;
+      background: #D2D2B4;
+      color: #0D210D;
       text-align: center;
       padding: 40px;
     }
+
     .question {
-      font-size: 24px;
+      font-size: 28px;
       margin-bottom: 20px;
+      color: #4D852C;
+      font-weight: bold;
     }
+
     .thumbs {
-      font-size: 60px;
+      font-size: 70px;
       cursor: pointer;
-      margin: 20px;
-      transition: transform 0.2s;
+      margin: 30px;
+      transition: transform 0.2s, color 0.2s;
     }
+
     .thumbs:hover {
       transform: scale(1.2);
+      color: #FF8C00;
     }
+
     .thank-you {
-      font-size: 20px;
+      font-size: 22px;
       margin-top: 30px;
-      color: green;
+      color: #4D852C;
+      font-weight: bold;
+    }
+
+    .jungle-border {
+      border: 4px solid #4D852C;
+      border-radius: 12px;
+      padding: 30px;
+      background: white;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+
+    .jungle-header {
+      font-size: 36px;
+      color: #FF8C00;
+      margin-bottom: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    a {
+      color: #FF8C00;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
 
-  <div class="question" id="question">
-    How was your drive with [Instructor]?
-  </div>
+  <div class="jungle-border">
+    <div class="jungle-header">Jungle Feedback</div>
 
-  <div>
-    <span class="thumbs" onclick="submitFeedback('up')">👍</span>
-    <span class="thumbs" onclick="submitFeedback('down')">👎</span>
-  </div>
+    <div class="question" id="question">
+      How was your drive with [Instructor]?
+    </div>
 
-  <div class="thank-you" id="thankYouMessage" style="display:none;">
-    Thank you for your feedback!
+    <div>
+      <span class="thumbs" onclick="submitFeedback('up')">👍</span>
+      <span class="thumbs" onclick="submitFeedback('down')">👎</span>
+    </div>
+
+    <div class="thank-you" id="thankYouMessage" style="display:none;">
+      🐾 Thank you for your feedback!
+    </div>
   </div>
 
   <script>
@@ -58,7 +94,7 @@
         timestamp: new Date().toISOString()
       };
 
-      // 🔁 Replace this URL with your actual Power Automate HTTP POST URL
+      // 🔁 Replace this with your actual Power Automate POST URL
       fetch('https://your-power-automate-post-url', {
         method: 'POST',
         body: JSON.stringify(feedbackData),
