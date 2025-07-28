@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Drive Feedback</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      text-align: center;
+      padding: 40px;
+    }
+    .question {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .thumbs {
+      font-size: 50px;
+      cursor: pointer;
+      margin: 20px;
+    }
+    .thumbs:hover {
+      transform: scale(1.2);
+    }
+    .thank-you {
+      font-size: 20px;
+      margin-top: 30px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="question" id="question">
+    How was your drive with [Instructor]?
+  </div>
+
+  <div>
+    <span class="thumbs" onclick="submitFeedback('up')">👍</span>
+    <span class="thumbs" onclick="submitFeedback('down')">👎</span>
+  </div>
+
+  <div class="thank-you" id="thankYouMessage" style="display:none;">
+    Thank you for your feedback!
+  </div>
+
+  <script>
+    // Get instructor from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const instructor = urlParams.get('instructor') || 'your instructor';
+    document.getElementById('question').textContent = `How was your drive with ${instructor}?`;
+
+    function submitFeedback(rating) {
+      // ✅ You could log or POST this to a backend or Google Sheets
+      const feedbackData = {
+        instructor: instructor,
+        rating: rating,
+        timestamp: new Date().toISOString()
+      };
+
+      console.log('Feedback submitted:', feedbackData);
+
+      // Optional: Send to Google Sheets / API here
+      /*
+      fetch('https://your-api-url.com', {
+        method: 'POST',
+        body: JSON.stringify(feedbackData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      */
+
+      // Show thank you
+      document.getElementById('thankYouMessage').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
