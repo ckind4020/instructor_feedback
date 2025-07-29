@@ -99,7 +99,7 @@
   const apptID = paramMap.get('ApptID') || 'unknown';
 
   // Display instructor name in the question
-  document.getElementById('question').textContent = `How was your drive with ${instructor}?`;
+  document.getElementById('question').textContent = `Please rate your instructor, ${instructor}, during your drive.`;
 
   function submitFeedback(rating) {
     const feedbackData = {
