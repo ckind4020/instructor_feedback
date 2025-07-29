@@ -69,7 +69,7 @@
     <div class="jungle-header">Jungle Driving School Feedback</div>
 
     <div class="question" id="question">
-      How was your drive with [Instructor]?
+      Please rate your instructor, [Instructor], during your drive.
     </div>
 
     <div>
@@ -83,6 +83,7 @@
   </div>
 
 <script>
+  // Parse raw query string and decode properly
   const rawParams = window.location.search.slice(1); // Remove "?"
   const paramMap = new Map();
 
@@ -91,11 +92,13 @@
     paramMap.set(key, decodeURIComponent(rest.join('=').replace(/\+/g, ' ')));
   });
 
+  // Capture all values from query string
   const instructor = paramMap.get('instructor') || 'your instructor';
   const studID = paramMap.get('StudID') || 'unknown';
   const locationID = paramMap.get('LocationID') || 'unknown';
   const apptID = paramMap.get('ApptID') || 'unknown';
 
+  // Display instructor name in the question
   document.getElementById('question').textContent = `How was your drive with ${instructor}?`;
 
   function submitFeedback(rating) {
@@ -103,18 +106,18 @@
       instructor: instructor,
       StudID: studID,
       LocationID: locationID,
+      ApptID: apptID,
       rating: rating,
-      timestamp: new Date().toISOString(),
-      ApptID: apptID
+      timestamp: new Date().toISOString()
     };
 
       // 🔁 Replace this with your actual Power Automate POST URL
       fetch('https://prod-182.westus.logic.azure.com:443/workflows/f7ef25b7b4d54eb9b17b9dedfd526ec4/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PEr1b-VxzNczrD4eSOF2eiqIgzhOkGe7HmU51Tb6uTI', {
         method: 'POST',
         body: JSON.stringify(feedbackData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
     .then(() => {
       document.getElementById('thankYouMessage').style.display = 'block';
