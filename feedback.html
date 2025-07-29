@@ -94,6 +94,7 @@
   const instructor = paramMap.get('instructor') || 'your instructor';
   const studID = paramMap.get('StudID') || 'unknown';
   const locationID = paramMap.get('LocationID') || 'unknown';
+  const apptID = paramMap.get('ApptID') || 'unknown';
 
   document.getElementById('question').textContent = `How was your drive with ${instructor}?`;
 
@@ -103,7 +104,8 @@
       StudID: studID,
       LocationID: locationID,
       rating: rating,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      ApptID: apptID
     };
 
       // 🔁 Replace this with your actual Power Automate POST URL
@@ -116,6 +118,7 @@
     })
     .then(() => {
       document.getElementById('thankYouMessage').style.display = 'block';
+      //if we want to redirect - - window.location.href = 'https://jungledriving.com';
     })
     .catch(error => {
       console.error('Error submitting feedback:', error);
