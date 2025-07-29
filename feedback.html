@@ -82,18 +82,29 @@
     </div>
   </div>
 
-  <script>
-    // Get instructor name from URL param
-    const urlParams = new URLSearchParams(window.location.search);
-    const instructor = urlParams.get('instructor') || 'your instructor';
-    document.getElementById('question').textContent = `How was your drive with ${instructor}?`;
+<script>
+  const rawParams = window.location.search.slice(1); // Remove "?"
+  const paramMap = new Map();
 
-    function submitFeedback(rating) {
-      const feedbackData = {
-        instructor: instructor,
-        rating: rating,
-        timestamp: new Date().toISOString()
-      };
+  rawParams.split('&').forEach(pair => {
+    const [key, ...rest] = pair.split('=');
+    paramMap.set(key, decodeURIComponent(rest.join('=').replace(/\+/g, ' ')));
+  });
+
+  const instructor = paramMap.get('instructor') || 'your instructor';
+  const studID = paramMap.get('StudID') || 'unknown';
+  const locationID = paramMap.get('LocationID') || 'unknown';
+
+  document.getElementById('question').textContent = `How was your drive with ${instructor}?`;
+
+  function submitFeedback(rating) {
+    const feedbackData = {
+      instructor: instructor,
+      StudID: studID,
+      LocationID: locationID,
+      rating: rating,
+      timestamp: new Date().toISOString()
+    };
 
       // 🔁 Replace this with your actual Power Automate POST URL
       fetch('https://prod-182.westus.logic.azure.com:443/workflows/f7ef25b7b4d54eb9b17b9dedfd526ec4/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PEr1b-VxzNczrD4eSOF2eiqIgzhOkGe7HmU51Tb6uTI', {
@@ -102,16 +113,16 @@
         headers: {
           'Content-Type': 'application/json'
         }
-      })
-      .then(() => {
-        document.getElementById('thankYouMessage').style.display = 'block';
-      })
-      .catch(error => {
-        console.error('Error submitting feedback:', error);
-        alert('There was an error submitting your feedback. Please try again.');
-      });
-    }
-  </script>
+    })
+    .then(() => {
+      document.getElementById('thankYouMessage').style.display = 'block';
+    })
+    .catch(error => {
+      console.error('Error submitting feedback:', error);
+      alert('There was an error submitting your feedback. Please try again.');
+    });
+  }
+</script>
 
 </body>
 </html>
